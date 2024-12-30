@@ -7,6 +7,6 @@ services:
       - "6379:6379"
     command: redis-server /usr/local/etc/redis/redis.conf
     volumes:
-      - /Users/black/dev/redis/data:/data
-      - /Users/black/dev/redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - ${REDIS_HOME_PATH}/data:/data
+      - ${REDIS_HOME_PATH}/redis.conf:/usr/local/etc/redis/redis.conf
     restart: always

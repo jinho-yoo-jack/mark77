@@ -1,4 +1,11 @@
-### GET request to example server
-GET http://localhost:7777/api/v1/queue/register?user_id=15
+### GET Register at Waiting List
+GET http://localhost:7777/api/v1/queue/waiting/register?user_id=24
+###
 
+### GET Enter Processing
+GET http://localhost:7777/api/v1/queue/processing/enter
+###
+
+### GET Exit Processing
+GET http://localhost:7777/api/v1/queue/processing/exit?user_id=13
 ###
