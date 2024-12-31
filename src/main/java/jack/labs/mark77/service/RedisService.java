@@ -1,6 +1,7 @@
 package jack.labs.mark77.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,11 @@ public class RedisService {
     public long getRank(String queueName, String key) {
         return Optional.ofNullable(redisTemplate.opsForZSet().rank(queueName, key))
                 .orElseThrow(() -> new RuntimeException("No such id: " + key));
+    }
+
+    public boolean contains(String queueName, String key) {
+        Long result = redisTemplate.opsForZSet().rank(queueName, key);
+        return !Objects.isNull(result);
     }
 
     public void pop(String waitingQueue, String processingQueue, long count) {

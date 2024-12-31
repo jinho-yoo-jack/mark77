@@ -9,3 +9,5 @@ GET http://localhost:7777/api/v1/queue/processing/enter
 ### GET Exit Processing
 GET http://localhost:7777/api/v1/queue/processing/exit?user_id=13
 ###
+
+GET http://localhost:7777/
