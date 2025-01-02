@@ -7,10 +7,7 @@ import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Stream;
 
 @Service
@@ -24,12 +21,11 @@ public class RedisService {
 
     public long getRank(String queueName, String key) {
         return Optional.ofNullable(redisTemplate.opsForZSet().rank(queueName, key))
-                .orElseThrow(() -> new RuntimeException("No such id: " + key));
+                .orElseThrow(() -> new NoSuchElementException("No such id: " + key));
     }
 
-    public boolean contains(String queueName, String key) {
-        Long result = redisTemplate.opsForZSet().rank(queueName, key);
-        return !Objects.isNull(result);
+    public void contains(String queueName, String key) {
+        getRank(queueName, key);
     }
 
     public void pop(String waitingQueue, String processingQueue, long count) {

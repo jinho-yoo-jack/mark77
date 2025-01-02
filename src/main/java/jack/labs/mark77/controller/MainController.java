@@ -12,4 +12,9 @@ public class MainController {
     public String index(){
         return "index";
     }
+
+    @GetMapping("/waiting")
+    public String waiting(){
+        return "waiting";
+    }
 }
