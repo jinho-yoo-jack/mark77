@@ -10,7 +10,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @RequiredArgsConstructor
-public class AccessFilter extends OncePerRequestFilter {
+public class WaitingFilter extends OncePerRequestFilter {
     private final RedisService redisService;
 
     @Override

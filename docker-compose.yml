@@ -10,3 +10,16 @@ services:
       - ${REDIS_HOME_PATH}/data:/data
       - ${REDIS_HOME_PATH}/redis.conf:/usr/local/etc/redis/redis.conf
     restart: always
+  mysql:
+    image: mysql:8.0.33
+    ports:
+      - 13306:3306
+    volumes:
+      - ${DB_INIT_FILE_PATH}:/docker-entrypoint-initdb.d
+    command:
+      - '--character-set-server=utf8mb4'
+      - '--collation-server=utf8mb4_unicode_ci'
+      - '--lower_case_table_names=1'
+    environment:
+      MYSQL_ROOT_PASSWORD: wanted
+      MYSQL_DATABASE: wanted_preonboarding
