@@ -4,7 +4,6 @@ import jack.labs.mark77.dto.CustomUserDetails;
 import jack.labs.mark77.dto.UserInfo;
 import jack.labs.mark77.entity.User;
 import jack.labs.mark77.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -12,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final ModelMapper modelMapper;
 
     @Override
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findById(username)
             .orElseThrow(() -> new UsernameNotFoundException("해당하는 유저는 없습니다."));
