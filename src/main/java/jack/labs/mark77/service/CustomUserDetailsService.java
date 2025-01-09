@@ -4,6 +4,7 @@ import jack.labs.mark77.dto.CustomUserDetails;
 import jack.labs.mark77.dto.UserInfo;
 import jack.labs.mark77.entity.User;
 import jack.labs.mark77.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;

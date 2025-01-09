@@ -19,7 +19,7 @@ public class JwtService {
     private final long accessTokenExpiresTime;
 
     public JwtService(@Value("${jwt.secret}") String secretKey,
-                      @Value("${}jwt.expiration_time") long accessTokenExpiresTime) {
+                      @Value("${jwt.expiration_time}") long accessTokenExpiresTime) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
         this.accessTokenExpiresTime = accessTokenExpiresTime;
