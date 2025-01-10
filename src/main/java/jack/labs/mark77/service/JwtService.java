@@ -36,7 +36,7 @@ public class JwtService {
     }
 
     public String getUserId(String token) {
-        return parseClaims(token).get("userId", String.class);
+        return parseClaims(token).get("user_id", String.class);
     }
 
     public boolean validateToken(String accessToken) {
@@ -57,6 +57,7 @@ public class JwtService {
 
     private String createToken(CustomUserInfoDto member, long accessTokenExpiresTime) {
         Claims claims = Jwts.claims();
+        log.info("CREATE JWT Token ::: user_id ::: {}", member.getUserId());
         claims.put("user_id", member.getUserId());
         claims.put("role", member.getRole());
 

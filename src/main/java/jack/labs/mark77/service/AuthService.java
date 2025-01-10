@@ -26,15 +26,16 @@ public class AuthService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException("등록되지 않은 사용자 입니다."));
 
-        if(!passwordEncoder.matches(password, user.getPassword())) {
+        if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
         }
 
-        CustomUserInfoDto info = modelMapper.map(user, CustomUserInfoDto.class);
+        CustomUserInfoDto info = new CustomUserInfoDto(user.getId(), user.getRole());
         return jwtService.createToken(info);
     }
 
     public User signUp(UserInfo userInfo) {
-        return userRepository.save(userInfo.toEntity());
+        String encryptedPassword = passwordEncoder.encode(userInfo.getPassword());
+        return userRepository.save(userInfo.toEntity(encryptedPassword));
     }
 }

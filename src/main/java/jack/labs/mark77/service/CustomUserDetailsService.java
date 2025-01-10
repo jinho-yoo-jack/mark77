@@ -26,7 +26,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepository.findById(username)
             .orElseThrow(() -> new UsernameNotFoundException("해당하는 유저는 없습니다."));
 
-        UserInfo userInfo = modelMapper.map(user, UserInfo.class);
+        UserInfo userInfo = new UserInfo(user.getId(), user.getPassword(),user.getNickname(), user.getRole());
         return new CustomUserDetails(userInfo);
     }
 }

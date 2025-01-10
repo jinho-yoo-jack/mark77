@@ -34,7 +34,7 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return webSecurity -> {
-            webSecurity.ignoring().requestMatchers("/waiting");
+            webSecurity.ignoring().requestMatchers("/waiting", "/api/v1/auth/**");
         };
     }
 
@@ -43,9 +43,9 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(request -> request
-                        .requestMatchers(AUTH_WHITELIST).permitAll()
-                )
+//                .authorizeHttpRequests(request -> request
+//                        .requestMatchers(AUTH_WHITELIST).permitAll()
+//                )
                 .addFilterBefore(new JwtAuthFilter(customUserDetailsService, jwtService), UsernamePasswordAuthenticationFilter.class);
 //                .addFilterAfter(new WaitingFilter(redisService), UsernamePasswordAuthenticationFilter.class);
         return http.build();
