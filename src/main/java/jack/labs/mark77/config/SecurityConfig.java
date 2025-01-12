@@ -1,11 +1,9 @@
 package jack.labs.mark77.config;
 
 import jack.labs.mark77.global.filter.JwtAuthFilter;
-import jack.labs.mark77.global.filter.WaitingFilter;
 import jack.labs.mark77.service.JwtService;
 import jack.labs.mark77.service.RedisService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -43,9 +41,9 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(AbstractHttpConfigurer::disable)
-//                .authorizeHttpRequests(request -> request
-//                        .requestMatchers(AUTH_WHITELIST).permitAll()
-//                )
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers(AUTH_WHITELIST).permitAll()
+                )
                 .addFilterBefore(new JwtAuthFilter(customUserDetailsService, jwtService), UsernamePasswordAuthenticationFilter.class);
 //                .addFilterAfter(new WaitingFilter(redisService), UsernamePasswordAuthenticationFilter.class);
         return http.build();
