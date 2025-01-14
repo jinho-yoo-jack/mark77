@@ -2,6 +2,8 @@ server:
   port: 7777
 
 spring:
+  profiles:
+    active: dev
   datasource:
     url: jdbc:mysql://localhost:13306/stark_industry?serverTimezone=UTC&characterEncoding=UTF-8
     username: tony
@@ -10,7 +12,7 @@ spring:
   # JPA 설정
   jpa:
     hibernate:
-      ddl-auto: create-drop # DB 초기화 전략 (none, create, create-drop, update, validate)
+      ddl-auto: none # DB 초기화 전략 (none, create, create-drop, update, validate)
     properties:
       hibernate:
         auto_quote_keyword: false
@@ -24,3 +26,31 @@ spring:
 jwt:
   secret: "i123am123iron123man123For123tony123stark99mark77"
   expiration_time: 10000000
+
+---
+spring:
+  profiles:
+    active: test
+  datasource:
+    url: jdbc:mysql://localhost:13306/stark_industry?serverTimezone=UTC&characterEncoding=UTF-8
+    username: tony
+    password: edth
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  # JPA 설정
+  jpa:
+    hibernate:
+      ddl-auto: none # DB 초기화 전략 (none, create, create-drop, update, validate)
+    properties:
+      hibernate:
+        auto_quote_keyword: false
+        globally_quoted_identifiers: false
+        format_sql: true     # 쿼리 로그 포맷 (정렬)
+        show_sql: true       # 쿼리 로그 출력
+  data:
+    redis:
+      host: localhost
+      port: 6379
+jwt:
+  secret: "i123am123iron123man123For123tony123stark99mark77"
+  expiration_time: 10000000
+

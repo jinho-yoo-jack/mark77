@@ -18,34 +18,36 @@ CREATE TABLE `USER`
 
 CREATE TABLE `PRODUCT`
 (
-    `product_id`   VARCHAR(255)           NOT NULL COMMENT '상품 ID',
-    `product_name` VARCHAR(255)           NOT NULL COMMENT '상품명',
-    `created_at`   DATETIME DEFAULT NOW() NOT NULL,
-    `updated_at`   DATETIME DEFAULT NOW() NOT NUll,
-    PRIMARY KEY (product_id)
+    `id`         BINARY(16) DEFAULT (uuid_to_bin(uuid())) NOT NULL COMMENT '상품 ID',
+    `name`       VARCHAR(255)                             NOT NULL COMMENT '상품명',
+    `price`      VARCHAR(255)                             NOT NULL COMMENT '가격',
+    `size`       VARCHAR(255)                             NOT NULL COMMENT '사이즈',
+    `color`      VARCHAR(255)                             NOT NULL COMMENT '색상',
+    `created_at` DATETIME   DEFAULT NOW()                 NOT NULL,
+    `updated_at` DATETIME   DEFAULT NOW()                 NOT NUll,
+    PRIMARY KEY (id)
 
 );
 
 CREATE TABLE `CART`
 (
-    `cart_id`        VARCHAR(255)           NOT NULL COMMENT '장바구니 ID(PK)',
-    `user_id`        VARCHAR(255)           NOT NULL COMMENT '사용자(FK)',
-    `cart_detail_id` VARCHAR(255)           NOT NULL COMMENT '장바구니 아이템(FK)',
-    `created_at`     DATETIME DEFAULT NOW() NOT NULL,
-    `updated_at`     DATETIME DEFAULT NOW() NOT NUll,
-    PRIMARY KEY (cart_id),
-    UNIQUE KEY (cart_id, user_id, cart_detail_id)
+    `id`         BINARY(16) DEFAULT (uuid_to_bin(uuid())) NOT NULL COMMENT '장바구니 ID(PK)',
+    `user_id`    VARCHAR(255)                             NOT NULL COMMENT '사용자(FK)',
+    `created_at` DATETIME   DEFAULT NOW()                 NOT NULL,
+    `updated_at` DATETIME   DEFAULT NOW()                 NOT NUll,
+    PRIMARY KEY (id),
+    UNIQUE KEY (id, user_id)
 );
 
 CREATE TABLE `CART_DETAIL`
 (
-    `id`         VARCHAR(255)           NOT NULL COMMENT '장바구니 ID(PK)',
-    `cart_id`    VARCHAR(255)           NOT NULL COMMENT '사용자(FK)',
-    `product_id` VARCHAR(255)           NOT NULL COMMENT '장바구니 아이템(FK)',
-    `size`       VARCHAR(255)           NOT NULL COMMENT '장바구니 아이템(FK)',
-    `quantity`   VARCHAR(255)           NOT NULL COMMENT '장바구니 아이템(FK)',
-    `created_at` DATETIME DEFAULT NOW() NOT NULL,
-    `updated_at` DATETIME DEFAULT NOW() NOT NUll,
+    `id`         BINARY(16) DEFAULT (uuid_to_bin(uuid())) NOT NULL COMMENT '장바구니 ID(PK)',
+    `cart_id`    VARCHAR(255)                             NOT NULL COMMENT '사용자(FK)',
+    `product_id` VARCHAR(255)                             NOT NULL COMMENT '장바구니 아이템(FK)',
+    `size`       VARCHAR(255)                             NOT NULL COMMENT '장바구니 아이템(FK)',
+    `quantity`   VARCHAR(255)                             NOT NULL COMMENT '장바구니 아이템(FK)',
+    `created_at` DATETIME   DEFAULT NOW()                 NOT NULL,
+    `updated_at` DATETIME   DEFAULT NOW()                 NOT NUll,
     PRIMARY KEY (id),
     UNIQUE KEY (cart_id, product_id, size)
 )

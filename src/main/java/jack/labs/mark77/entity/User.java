@@ -6,6 +6,7 @@ import lombok.*;
 @Entity
 @Table(name = "USER")
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,5 +21,9 @@ public class User {
     private String nickname;
 
     private String role;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id") // CART 테이블의 USER_ID(FK)
+    private Cart cart;
 
 }
