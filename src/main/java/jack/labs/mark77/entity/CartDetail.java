@@ -1,16 +1,19 @@
 package jack.labs.mark77.entity;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
 @Table(name = "cart_detail")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class CartDetail {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(columnDefinition = "BINARY(16)")
-    private String id;
+    private int id;
 
     @Column
     private String size;
@@ -18,8 +21,8 @@ public class CartDetail {
     @Column
     private String quantity;
 
-    @OneToMany
-    @JoinColumn(name = "product_id")
-    private List<Product> products;
+    @OneToOne
+    @JoinColumn(name = "id")
+    private Product products;
 
 }

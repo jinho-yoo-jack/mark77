@@ -1,0 +1,12 @@
+### POST ADD NEW CART
+POST http://localhost:7777/api/v1/cart/add
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoidG9ueSIsInJvbGUiOiJST0xFX1VTRVIiLCJpYXQiOjE3MzkyNDAwODQsImV4cCI6MTc0OTI0MDA4NH0.hiRL4o1fU7XutpR-6tTIjVzi3BGIyisSja_YVwHc-dY
+
+
+{
+  "product_id": "1",
+  "size": "free"
+}
+###
+

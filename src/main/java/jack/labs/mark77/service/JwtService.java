@@ -6,6 +6,9 @@ import io.jsonwebtoken.security.Keys;
 import jack.labs.mark77.dto.CustomUserInfoDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -38,6 +41,18 @@ public class JwtService {
     public String getUserId(String token) {
         return parseClaims(token).get("user_id", String.class);
     }
+
+    public String getUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userId = "";
+
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            userId = userDetails.getUsername();
+        }
+        return userId;
+    }
+    
 
     public boolean validateToken(String accessToken) {
         try {
