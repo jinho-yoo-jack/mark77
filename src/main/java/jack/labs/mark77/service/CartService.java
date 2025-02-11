@@ -7,6 +7,7 @@ import jack.labs.mark77.entity.Product;
 import jack.labs.mark77.entity.User;
 import jack.labs.mark77.repository.CartDetailRepository;
 import jack.labs.mark77.repository.CartRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ public class CartService {
     private final ProductService productService;
     private final JwtService jwtService;
 
+    @Transactional
     public String addNewProductToCart(WishItem item) {
         String userId = jwtService.getUserId();
         User user = userService.findById(userId);
