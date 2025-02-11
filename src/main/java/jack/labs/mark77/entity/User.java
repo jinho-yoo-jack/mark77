@@ -22,8 +22,8 @@ public class User {
 
     private String role;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id") // CART 테이블의 USER_ID(FK)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cart_id")
     private Cart cart;
 
 }

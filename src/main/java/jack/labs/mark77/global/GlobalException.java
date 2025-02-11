@@ -8,6 +8,11 @@ public class GlobalException {
 
     @ExceptionHandler(Exception.class)
     public String allExceptionHandler(Exception e) {
-        return e.getMessage();
+        return "Error Message ::: " + e.getMessage();
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public String runTimeExceptionHandler(Exception e) {
+        return "Error Message ::: " + e.getMessage();
     }
 }

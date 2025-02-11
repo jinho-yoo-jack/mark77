@@ -25,24 +25,32 @@ public class CartService {
     public String addNewProductToCart(WishItem item) {
         String userId = jwtService.getUserId();
         User user = userService.findById(userId);
-        Cart cart = makeCart(user);
         Product product = productService.getProductById(item.getProductId());
-        CartDetail cartDetail = new CartDetail(cart.getId(), item.getSize(), String.valueOf(1), product);
-        cartDetailRepository.save(cartDetail);
+        CartDetail cartDetail = CartDetail.builder()
+            .cartId(getCart(user))
+            .products(product)
+            .size(item.getSize())
+            .quantity(1L)
+            .build();
 
+        cartDetailRepository.save(cartDetail);
         return "success";
     }
 
-    private Cart makeCart(User s){
-        Cart cart = Cart.builder()
-                .user(s)
-                .build();
-        return cartRepository.save(cart);
-
+    private long getCart(User user) {
+        // User.cart_id is null -> make new cart
+        // else getCart(); -> return Cart
+        if (!hasCart(user)) return makeCart(user).getId();
+        else return user.getCart().getId();
     }
 
-    private boolean hasCart(String userId){
-        return cartRepository.findByUserId(userId).isPresent();
+    private Cart makeCart(User u) {
+        Cart cart = cartRepository.save(new Cart());
+        u.setCart(cart);
+        return cart;
+    }
 
+    private boolean hasCart(User user) {
+        return user.getCart() != null;
     }
 }
