@@ -1,5 +1,6 @@
 package jack.labs.mark77.service;
 
+import jack.labs.mark77.dto.RespAddNewProductToCart;
 import jack.labs.mark77.dto.WishItem;
 import jack.labs.mark77.entity.Cart;
 import jack.labs.mark77.entity.CartDetail;
@@ -22,7 +23,7 @@ public class CartService {
     private final JwtService jwtService;
 
     @Transactional
-    public String addNewProductToCart(WishItem item) {
+    public RespAddNewProductToCart addNewProductToCart(WishItem item) {
         String userId = jwtService.getUserId();
         User user = userService.findById(userId);
         Product product = productService.getProductById(item.getProductId());
@@ -34,7 +35,9 @@ public class CartService {
             .build();
 
         cartDetailRepository.save(cartDetail);
-        return "success";
+        return RespAddNewProductToCart.builder()
+                .result("success")
+                .build();
     }
 
     private long getCart(User user) {

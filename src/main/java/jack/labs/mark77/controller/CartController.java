@@ -1,10 +1,13 @@
 package jack.labs.mark77.controller;
 
 import jack.labs.mark77.dto.ReqAddNewProduct;
+import jack.labs.mark77.dto.RespAddNewProductToCart;
 import jack.labs.mark77.dto.WishItem;
+import jack.labs.mark77.global.ApiResponse;
 import jack.labs.mark77.service.CartService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,7 +18,7 @@ public class CartController {
 
 
     @PostMapping("/add")
-    public String addItem(@RequestBody ReqAddNewProduct requestMessage) {
-        return cartService.addNewProductToCart(WishItem.of(requestMessage));
+    public ResponseEntity<ApiResponse<RespAddNewProductToCart>> addItem(@RequestBody @Valid ReqAddNewProduct requestMessage) {
+        return ResponseEntity.ok(ApiResponse.success(cartService.addNewProductToCart(WishItem.of(requestMessage))));
     }
 }

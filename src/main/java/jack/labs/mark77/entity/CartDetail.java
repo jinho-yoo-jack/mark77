@@ -7,10 +7,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "cart_detail")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Builder
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CartDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
