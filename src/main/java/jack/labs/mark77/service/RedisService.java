@@ -15,6 +15,14 @@ import java.util.stream.Stream;
 public class RedisService {
     private final RedisTemplate<String, String> redisTemplate;
 
+    public Long add(String key, String value) {
+        return redisTemplate.opsForSet().add(key, value);
+    }
+
+    public String getValue(String key) {
+        return redisTemplate.opsForSet().pop(key);
+    }
+
     public Boolean add(String queueName, String key, long value) {
         return Boolean.TRUE.equals(redisTemplate.opsForZSet().add(queueName, key, value));
     }

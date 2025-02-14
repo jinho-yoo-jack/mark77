@@ -1,11 +1,10 @@
 package jack.labs.mark77.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @RequiredArgsConstructor
 @AllArgsConstructor
+@Getter
 @Builder
 public class RespAddNewProductToCart {
     private String result;

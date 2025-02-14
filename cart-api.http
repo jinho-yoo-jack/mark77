@@ -1,11 +1,11 @@
 ### POST ADD NEW CART
 POST http://localhost:7777/api/v1/cart/add
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoidG9ueSIsInJvbGUiOiJST0xFX1VTRVIiLCJpYXQiOjE3MzkzMzMyOTUsImV4cCI6MTc0OTMzMzI5NX0.5sWVfv6wewZhu9o9bx3O5FmLe4sKsbi00-ZX-bVhjdM
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoidG9ueSIsInJvbGUiOiJST0xFX1VTRVIiLCJleHAiOjE3Mzk1MTd9.cE7-ZoiHMbUPbJcinX7oCNOPJqqpa6DFR9X4vh0kts0
 
 {
-  "product_id": "1",
-  "size": ""
+  "product_id": 1,
+  "size": "free"
 }
 
 

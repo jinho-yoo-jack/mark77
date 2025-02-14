@@ -18,7 +18,7 @@ public class CartController {
 
 
     @PostMapping("/add")
-    public ResponseEntity<ApiResponse<RespAddNewProductToCart>> addItem(@RequestBody @Valid ReqAddNewProduct requestMessage) {
+    public ResponseEntity<ApiResponse<RespAddNewProductToCart>> addItem(@Valid @RequestBody ReqAddNewProduct requestMessage) {
         return ResponseEntity.ok(ApiResponse.success(cartService.addNewProductToCart(WishItem.of(requestMessage))));
     }
 }
