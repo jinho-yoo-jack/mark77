@@ -6,8 +6,6 @@ import jack.labs.mark77.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.NoSuchElementException;
-
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -16,4 +14,5 @@ public class UserService {
     public User findById(String id) {
         return userRepository.findById(id).orElseThrow(NotFoundUserException::new);
     }
+
 }
