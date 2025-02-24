@@ -26,7 +26,7 @@ spring:
 jwt:
   secret: "i123am123iron123man123For123tony123stark99mark77"
   refresh_secret: "i123am123iron123man123For123tony123stark99mark77again199700000000000000000000000000000000000000000000"
-  expiration_time: 1 # second 600s -> 10m
+  expiration_time: 3 # 3m
 
 ---
 spring:
@@ -53,5 +53,4 @@ spring:
       port: 6379
 jwt:
   secret: "i123am123iron123man123For123tony123stark99mark77"
-  expiration_time: 10000000
-
+  expiration_time: 3 # 3m
