@@ -1,5 +1,6 @@
 package jack.labs.mark77.entity;
 
+import jack.labs.mark77.dto.Authority;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,7 +21,8 @@ public class User {
     @Column(name = "nick_name", nullable = false)
     private String nickname;
 
-    private String role;
+    @Convert(converter = AuthorityConverter.class)
+    private Authority role;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cart_id")

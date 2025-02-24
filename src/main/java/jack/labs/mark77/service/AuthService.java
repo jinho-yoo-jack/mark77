@@ -1,6 +1,6 @@
 package jack.labs.mark77.service;
 
-import jack.labs.mark77.dto.CustomUserInfoDto;
+import jack.labs.mark77.dto.JwtUserInfoDto;
 import jack.labs.mark77.dto.UserInfo;
 import jack.labs.mark77.entity.User;
 import jack.labs.mark77.repository.UserRepository;
@@ -28,7 +28,7 @@ public class AuthService {
             throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
         }
 
-        CustomUserInfoDto info = new CustomUserInfoDto(user.getId(), user.getRole());
+        JwtUserInfoDto info = new JwtUserInfoDto(user.getId(), user.getRole());
         return jwtService.createToken(info);
     }
 

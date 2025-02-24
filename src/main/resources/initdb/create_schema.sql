@@ -9,7 +9,7 @@ CREATE TABLE `USER`
 (
     `user_id`    VARCHAR(255)           NOT NULL COMMENT '사용자 ID',
     `password`   VARCHAR(255)           NOT NULL COMMENT '사용자 Password',
-    `role`       VARCHAR(255)           NOT NULL COMMENT '권한; 등급; ADMIN, USER',
+    `role`       BIGINT                 NOT NULL COMMENT '권한; 등급; ADMIN(99), USER(1)',
     `nick_name`  VARCHAR(255)           NOT NULL COMMENT '별명',
     `cart_id`    BIGINT                 NULL COMMENT '장바구니 ID',
     `created_at` DATETIME DEFAULT NOW() NOT NULL,

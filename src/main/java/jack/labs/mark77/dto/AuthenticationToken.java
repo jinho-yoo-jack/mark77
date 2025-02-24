@@ -5,37 +5,52 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 @RequiredArgsConstructor
-
 public class AuthenticationToken implements UserDetails {
-    private final String id;
+    private final String userId;
     private final String password;
     private final Collection<? extends GrantedAuthority> authorities;
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return authorities;
     }
 
     @Override
     public String getPassword() {
-        return this.password;
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return this.id;
+        return userId;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public static AuthenticationToken of(User u) {
-        String id = u.getId();
-        String password = u.getPassword();
-        Authority authorities = Authority.USER;
-
-        return new AuthenticationToken(id, password, List.of(authorities));
+        return new AuthenticationToken(u.getId(), u.getPassword(), List.of(u.getRole()));
     }
 }

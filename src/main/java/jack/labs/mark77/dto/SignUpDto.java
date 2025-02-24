@@ -2,7 +2,6 @@ package jack.labs.mark77.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
@@ -17,7 +16,7 @@ public class SignUpDto {
                 .userId(userId)
                 .password(password)
                 .nickname(nickname)
-                .role("ROLE_USER")
+                .role("USER")
                 .build();
     }
 }

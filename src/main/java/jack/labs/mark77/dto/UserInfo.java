@@ -1,14 +1,19 @@
 package jack.labs.mark77.dto;
 
 import jack.labs.mark77.entity.User;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
+
+import java.io.Serial;
+import java.io.Serializable;
+
 
 @Data
 @AllArgsConstructor
 @Builder
-public class UserInfo {
+public class UserInfo implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L; // 권장되는 직렬화 버전 UID
+
     private final String userId;
     private String password;
     private final String nickname;
@@ -23,7 +28,7 @@ public class UserInfo {
                 .id(userId)
                 .password(encodedPassword)
                 .nickname(nickname)
-                .role(role)
+                .role(Authority.valueOf(role))
                 .build();
     }
 }

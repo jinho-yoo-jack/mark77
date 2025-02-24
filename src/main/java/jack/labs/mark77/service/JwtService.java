@@ -3,7 +3,8 @@ package jack.labs.mark77.service;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import jack.labs.mark77.dto.CustomUserInfoDto;
+import jack.labs.mark77.dto.JwtUserInfoDto;
+import jack.labs.mark77.global.exception.NotFoundUserException;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +14,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.Date;
 
@@ -22,35 +22,34 @@ import java.util.Date;
 public class JwtService {
     private final Key key;
     private final Key refreshKey;
-
-    private final long accessTokenExpiresTime;
-    private final long refreshTokenExpiresTime;
-
     private final RedisService redisService;
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 3;            // 30분
+    private final long accessTokenExpireTime;
+    private final long refreshTokenExpireTime;
+
+    private static final long ONE_SECOND = 1000;
+    private static final long ONE_MINUTE = ONE_SECOND * 60;
+    private static final String USERNAME_KEY = "user_id";
+    private static final String USERROLE_KEY = "role";
+    private static final String INVALID_TOKEN_MESSAGE = "INVALID_TOKEN";
 
 
     public JwtService(@Value("${jwt.secret}") String secretKey,
                       @Value("${jwt.refresh_secret}") String refreshSecretKey,
                       @Value("${jwt.expiration_time}") long accessTokenExpiresTime,
                       RedisService redisService) {
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
-        this.key = Keys.hmacShaKeyFor(keyBytes);
+        this.key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
         this.refreshKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(refreshSecretKey));
-        this.accessTokenExpiresTime = accessTokenExpiresTime;
-        long oneHour = this.accessTokenExpiresTime * 10;
-        long oneDay = oneHour * 24;
-        this.refreshTokenExpiresTime = oneDay * 10;
         this.redisService = redisService;
+        accessTokenExpireTime = ONE_MINUTE * accessTokenExpiresTime;        // 30 min
+        refreshTokenExpireTime = ONE_MINUTE * (accessTokenExpiresTime * 2); // 60 min
     }
 
     /**
      * Create Access Token
      *
-     * @param member
      * @return Access Token
      */
-    public String createToken(CustomUserInfoDto member) {
+    public String createToken(JwtUserInfoDto member) {
         String accessToken = generateAccessToken(member);
         String refreshToken = generateRefreshToken(member);
         saveToRedis(accessToken, refreshToken);
@@ -58,18 +57,28 @@ public class JwtService {
     }
 
     public String getUserId(String token) {
-        return parseClaims(token).get("user_id", String.class);
+        return parseClaims(token).get(USERNAME_KEY, String.class);
     }
 
     public String getUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userId = "";
+        return getUserInfo(USERNAME_KEY);
+    }
 
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            userId = userDetails.getUsername();
+    public String getUserAuthority() {
+        return getUserInfo(USERROLE_KEY);
+    }
+
+    private String getUserInfo(String needKey) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails userDetails) {
+            userDetails = (UserDetails) authentication.getPrincipal();
+            return switch (needKey) {
+                case USERNAME_KEY -> userDetails.getUsername();
+                case USERROLE_KEY -> userDetails.getAuthorities().toString();
+                default -> throw new NotFoundUserException();
+            };
         }
-        return userId;
+        return null;
     }
 
 
@@ -78,8 +87,8 @@ public class JwtService {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            log.info("Invalid JWT Token", e);
-            throw new MalformedJwtException("Invalid JWT Token");
+            log.info(INVALID_TOKEN_MESSAGE, e);
+            throw new MalformedJwtException(INVALID_TOKEN_MESSAGE);
         } catch (ExpiredJwtException e) {
             log.info("Expired JWT Token", e);
             response.addHeader("Authorization", "Bearer " + renewToken(token));
@@ -97,8 +106,8 @@ public class JwtService {
             Jwts.parserBuilder().setSigningKey(refreshKey).build().parseClaimsJws(token);
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            log.info("Invalid Refresh Token", e);
-            throw new MalformedJwtException("Invalid JWT Token");
+            log.info(INVALID_TOKEN_MESSAGE + " ::: Refresh", e);
+            throw new MalformedJwtException(INVALID_TOKEN_MESSAGE + " ::: Refresh");
         } catch (ExpiredJwtException e) {
             log.info("Expired JWT Token", e);
             throw new MalformedJwtException("Expired Refresh Token.\n Please login again.\n");
@@ -111,15 +120,13 @@ public class JwtService {
     }
 
 
-    private String generateAccessToken(CustomUserInfoDto member) {
+    private String generateAccessToken(JwtUserInfoDto member) {
         Claims claims = Jwts.claims();
-        claims.put("user_id", member.getUserId());
-        claims.put("role", member.getRole());
+        claims.put(USERNAME_KEY, member.getUserId());
+        claims.put("role", member.getRole().getAuthority());
 
-//        ZonedDateTime now = ZonedDateTime.now();
-//        ZonedDateTime expires = now.plusSeconds(accessTokenExpiresTime); // CurrentTime + ExpireTime
         long now = (new Date()).getTime();
-        Date expires = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
+        Date expires = new Date(now + accessTokenExpireTime);
         log.info("JWT token expires: " + expires);
 
         return Jwts.builder()
@@ -131,17 +138,17 @@ public class JwtService {
 
     private String generateAccessToken(Claims claims) {
         ZonedDateTime now = ZonedDateTime.now();
-        ZonedDateTime expires = now.plusSeconds(accessTokenExpiresTime); // CurrentTime + ExpireTime
+        ZonedDateTime expires = now.plusSeconds(accessTokenExpireTime); // CurrentTime + ExpireTime
 
         return makeToken(key, claims, Date.from(now.toInstant()), Date.from(expires.toInstant()));
     }
 
-    private String generateRefreshToken(CustomUserInfoDto member) {
+    private String generateRefreshToken(JwtUserInfoDto member) {
         Claims claims = Jwts.claims();
-        claims.put("user_id", member.getUserId());
-        claims.put("role", member.getRole());
+        claims.put(USERNAME_KEY, member.getUserId());
+        claims.put("role", member.getRole().getAuthority());
         ZonedDateTime now = ZonedDateTime.now();
-        ZonedDateTime expires = now.plusSeconds(refreshTokenExpiresTime);
+        ZonedDateTime expires = now.plusSeconds(refreshTokenExpireTime);
         return makeToken(refreshKey, claims, Date.from(now.toInstant()), Date.from(expires.toInstant()));
     }
 
@@ -158,7 +165,6 @@ public class JwtService {
     /**
      * JWT Claims 추출
      *
-     * @param accessToken
      * @return JWT Claims
      */
     private Claims parseClaims(String accessToken) {
@@ -177,8 +183,8 @@ public class JwtService {
         }
     }
 
-    private Long saveToRedis(String accessToken, String refreshToken) {
-        return redisService.add(accessToken, refreshToken);
+    private void saveToRedis(String accessToken, String refreshToken) {
+        redisService.add(accessToken, refreshToken);
     }
 
 

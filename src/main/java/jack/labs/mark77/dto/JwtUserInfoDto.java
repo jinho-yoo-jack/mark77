@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class CustomUserInfoDto {
+public class JwtUserInfoDto {
     private String userId;
-    private String role;
+    private Authority role;
 }

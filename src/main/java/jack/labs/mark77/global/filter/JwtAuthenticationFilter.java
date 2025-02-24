@@ -31,7 +31,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
         } else {
             try {
-                SignInDto requestDto = new ObjectMapper().readValue(request.getInputStream(), SignInDto.class);     // 2.
+                SignInDto requestDto = new ObjectMapper().readValue(request.getInputStream(), SignInDto.class);
                 String userId = requestDto.getUserId();
                 String password = requestDto.getPassword();
                 return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(userId, password));
@@ -45,9 +45,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     // 로그인 성공 시
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        String username = ((CustomUserDetails) authResult.getPrincipal()).getUsername();
-        String role = ((CustomUserDetails) authResult.getPrincipal()).getAuthorities().stream().findFirst().orElseThrow().getAuthority();
-        String token = jwtService.createToken(new CustomUserInfoDto(username, role));
+        String username = ((AuthenticationToken) authResult.getPrincipal()).getUsername();
+        String role = ((AuthenticationToken) authResult.getPrincipal()).getAuthorities().stream().findFirst().orElseThrow().getAuthority();
+        String token = jwtService.createToken(new JwtUserInfoDto(username, Authority.valueOf(role)));
         ApiResponse<String> responseMessage = ApiResponse.success(token);
         String responseJSON = new ObjectMapper().writeValueAsString(responseMessage);
         response.getWriter().write(responseJSON);
