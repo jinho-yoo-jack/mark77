@@ -1,14 +1,18 @@
 package jack.labs.mark77.global.filter;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jack.labs.mark77.dto.*;
 import jack.labs.mark77.global.ApiResponse;
+import jack.labs.mark77.global.ErrorResponse;
 import jack.labs.mark77.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -50,13 +54,19 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String token = jwtService.createToken(new JwtUserInfoDto(username, Authority.valueOf(role)));
         ApiResponse<String> responseMessage = ApiResponse.success(token);
         String responseJSON = new ObjectMapper().writeValueAsString(responseMessage);
+        response.setContentType("application/json; charset=UTF-8"); // JSON 타입 + UTF-8 설정
+        response.setCharacterEncoding("UTF-8"); // 한글 인코딩 설정 추가
         response.getWriter().write(responseJSON);
     }
 
     // 로그인 실패 시
     @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) {
-        response.setStatus(401);
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
+        ErrorResponse errorResponse = ErrorResponse.of(HttpStatus.UNAUTHORIZED.value(), failed.getMessage(), "/login", "id and password invalid");
+        String responseJSON = new ObjectMapper().writeValueAsString(errorResponse);
+        response.setContentType("application/json; charset=UTF-8"); // JSON 타입 + UTF-8 설정
+        response.setCharacterEncoding("UTF-8"); // 한글 인코딩 설정 추가
+        response.getWriter().write(responseJSON);
     }
 
 }
