@@ -16,9 +16,18 @@ import org.springframework.web.bind.annotation.*;
 public class CartController {
     private final CartService cartService;
 
-
     @PostMapping("/add")
     public ResponseEntity<ApiResponse<RespAddNewProductToCart>> addItem(@Valid @RequestBody ReqAddNewProduct requestMessage) {
+        return ResponseEntity.ok(ApiResponse.success(cartService.addNewProductToCart(WishItem.of(requestMessage))));
+    }
+
+    @GetMapping("/view")
+    public ResponseEntity<ApiResponse<?>> view(@RequestBody ReqAddNewProduct requestMessage) {
+        return ResponseEntity.ok(ApiResponse.success(cartService.addNewProductToCart(WishItem.of(requestMessage))));
+    }
+
+    @PostMapping("/delete/item")
+    public ResponseEntity<ApiResponse<?>> delete(@RequestBody ReqAddNewProduct requestMessage) {
         return ResponseEntity.ok(ApiResponse.success(cartService.addNewProductToCart(WishItem.of(requestMessage))));
     }
 }

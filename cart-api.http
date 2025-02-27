@@ -1,10 +1,18 @@
 ### POST ADD NEW CART
 POST http://localhost:7777/api/v1/cart/add
 Content-Type: application/json
+<<<<<<< Updated upstream
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoidG9ueSIsInJvbGUiOiJVU0VSIiwiZXhwIjoxNzM5NTE3fQ.-k97FeW0RSs475V9GzEcrhR4_1szn8BA4Q7J-BCdLqA
 
 {
   "product_id": 1,
+=======
+Authorization: Bearer  eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoidG9ueSIsInJvbGUiOiJST0xFX1VTRVIiLCJpYXQiOjE3Mzk0MzUwNDksImV4cCI6MTc0OTQzNTA0OX0.XBAQmR8HKOcyB1f5SAw4kio2IzlpRgIRnAOnugBXQSQ
+
+
+{
+  "product_id": 2,
+>>>>>>> Stashed changes
   "size": "free"
 }
 

@@ -24,7 +24,7 @@ public class CartService {
 
     @Transactional
     public RespAddNewProductToCart addNewProductToCart(WishItem item) {
-        String userId = jwtService.getUserId();
+        String userId = jwtService.getUserId(); // 로그인한 유저만 장바구니에 물건을 담을 수 있겠구나
         User user = userService.findById(userId);
         Product product = productService.getProductById(item.getProductId());
         CartDetail cartDetail = CartDetail.builder()

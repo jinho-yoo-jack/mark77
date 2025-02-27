@@ -7,8 +7,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.method.MethodValidationException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -25,7 +23,7 @@ public class GlobalException extends ResponseEntityExceptionHandler {
     @ExceptionHandler({NoSuchElementException.class, IOException.class, UnexpectedTypeException.class})
     public ResponseEntity<ErrorResponse> handlerAllException(Exception e, HttpServletRequest request) throws IOException {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ErrorResponse.of(500, "Internal Server Error", makeRequestMessage((WebRequest) request), request.getRequestURI()));
+                .body(ErrorResponse.of(500, "Internal Server Error", "exception", request.getRequestURI()));
     }
 
     @Override

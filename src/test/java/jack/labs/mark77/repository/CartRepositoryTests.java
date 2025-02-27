@@ -32,7 +32,6 @@ public class CartRepositoryTests {
             .nickname("유진호 멘토")
             .role("ROLE_USER")
             .build();
-        cart.setUser(user);
         user.setCart(cart);
 
         userRepository.save(user);
