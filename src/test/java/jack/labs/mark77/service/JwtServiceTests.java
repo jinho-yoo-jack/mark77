@@ -1,11 +1,62 @@
 package jack.labs.mark77.service;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+import jack.labs.mark77.dto.Authority;
+import org.junit.jupiter.api.*;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
-public class JwtServiceTests {
+import java.security.Key;
+import java.util.Date;
+
+@ActiveProfiles("test")
+@SpringBootTest
+@EnableConfigurationProperties
+class JwtServiceTests {
+
+    private final static long ONE_MINUTE = 60 * 1000;
+
+    @Value("${jwt.secret}")
+    private String secretKey;
+
+    @Value("${jwt.expiration_time}")
+    private long accessTokenExpiresTime;
+
+    private Key key;
+
+    private long accessTokenExpireTime;
+
+
+    @BeforeEach
+    void init() {
+        System.out.print("SecretKey ::: " + secretKey);
+        key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
+        accessTokenExpireTime = ONE_MINUTE * accessTokenExpiresTime;        // 30 min
+    }
+
+    @Test
+    void createToken(){
+        Claims claims = Jwts.claims();
+        claims.put("user_id", "tony");
+        claims.put("role", Authority.valueOf("ADMIN"));
+
+        long now = (new Date()).getTime();
+        Date expires = new Date(now + accessTokenExpireTime);
+
+        String accessToken = Jwts.builder()
+                .setClaims(claims)
+                .setExpiration(expires)
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+
+        Assertions.assertThat(accessToken).isNotEmpty();
+
+    }
 
     @Test
     void parseClaims_ValidToken() throws Exception {

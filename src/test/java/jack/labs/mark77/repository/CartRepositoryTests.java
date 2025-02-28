@@ -1,5 +1,6 @@
 package jack.labs.mark77.repository;
 
+import jack.labs.mark77.dto.Authority;
 import jack.labs.mark77.entity.Cart;
 import jack.labs.mark77.entity.User;
 import org.junit.jupiter.api.Assertions;
@@ -30,7 +31,7 @@ public class CartRepositoryTests {
             .id("jhy7342")
             .password("1234")
             .nickname("유진호 멘토")
-            .role("ROLE_USER")
+            .role(Authority.valueOf("USER"))
             .build();
         user.setCart(cart);
 
