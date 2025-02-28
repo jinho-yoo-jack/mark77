@@ -1,4 +1,4 @@
-package jack.labs.mark77.config;
+package jack.labs.mark77.config.security;
 
 import jack.labs.mark77.global.filter.JwtAuthFilter;
 import jack.labs.mark77.global.filter.JwtAuthenticationFilter;
@@ -24,6 +24,7 @@ public class SecurityConfig {
     private final JwtService jwtService;
     private final UserDetailsService customUserDetailsService;
     private final AuthenticationConfiguration authenticationConfiguration;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
@@ -60,7 +61,8 @@ public class SecurityConfig {
                         .anyRequest().authenticated() // 그 외 모든 요청 인증 처리
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtService), UsernamePasswordAuthenticationFilter.class)
-                .addFilterAfter(new JwtAuthFilter(customUserDetailsService, jwtService), UsernamePasswordAuthenticationFilter.class);
+                .addFilterAfter(new JwtAuthFilter(customUserDetailsService, jwtService), UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthenticationEntryPoint));
         return http.build();
     }
 
