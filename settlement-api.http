@@ -1,0 +1,18 @@
+### POST CREATE NEW SETTLEMENT
+POST http://localhost:7777/settlement/api/v1/settlement/create
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoidG9ueSIsInJvbGUiOiJVU0VSIiwiZXhwIjoxNzM5NTE3fQ.-k97FeW0RSs475V9GzEcrhR4_1szn8BA4Q7J-BCdLqA
+
+{
+  "settlement_name": "강릉여행"
+}
+
+### POST JOIN NEW SETTLEMENT TO MEMEBER
+POST http://localhost:7777/settlement/api/v1/settlement/join
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoidG9ueSIsInJvbGUiOiJVU0VSIiwiZXhwIjoxNzM5NTE3fQ.-k97FeW0RSs475V9GzEcrhR4_1szn8BA4Q7J-BCdLq
+
+{
+  "settlement_id": 1
+}
+

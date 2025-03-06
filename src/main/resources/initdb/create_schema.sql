@@ -55,4 +55,52 @@ CREATE TABLE `CART_DETAIL`
 INSERT INTO PRODUCT
 VALUES (DEFAULT, '구름_신상_강의', 100000, 'free', 'free', DEFAULT, DEFAULT);
 INSERT INTO PRODUCT
-VALUES (DEFAULT, '구름_신상_아이템', '100000', 'free', 'free', DEFAULT, DEFAULT)
+VALUES (DEFAULT, '구름_신상_아이템', '100000', 'free', 'free', DEFAULT, DEFAULT);
+
+
+CREATE TABLE `SETTLEMENT`
+(
+    `id`         BIGINT AUTO_INCREMENT  NOT NULL COMMENT '정산 ID',
+    `name`       VARCHAR(255)           NOT NULL COMMENT '정산명',
+    `created_at` DATETIME DEFAULT NOW() NOT NULL,
+    `updated_at` DATETIME DEFAULT NOW() NOT NUll,
+    `deleted_at` DATETIME DEFAULT NULL  NUll,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE `EXPENSE`
+(
+    `id`              BIGINT AUTO_INCREMENT NOT NULL COMMENT '지출 ID',
+    `settlement_name` VARCHAR(255)          NOT NULL COMMENT '지출명',
+    `user_name`       VARCHAR(255)          NOT NULL COMMENT '지출한 사람',
+    `amount`          VARCHAR(255)          NOT NULL COMMENT '지출 금액',
+    `created_at`      DATETIME              NOT NULL COMMENT '지출 날짜',
+    `settlement_id`   BIGINT                NOT NULL COMMENT '정산 ID',
+    PRIMARY KEY (id),
+    UNIQUE KEY (settlement_id, settlement_name, user_name)
+);
+
+CREATE TABLE `SETTLEMENT_RESULT`
+(
+    `id`                 BIGINT AUTO_INCREMENT NOT NULL COMMENT '정산 결과 ID',
+    `sender_user_no`     VARCHAR(255)          NOT NULL COMMENT '보내는 사람의 ID',
+    `sender_user_name`   VARCHAR(255)          NOT NULL COMMENT '보내는 사람의 이름',
+    `send_amount`        VARCHAR(255)          NOT NULL COMMENT '보내는 금액',
+    `receiver_user_no`   VARCHAR(255)          NOT NULL COMMENT '받는 사람의 ID',
+    `receiver_user_name` VARCHAR(255)          NOT NULL COMMENT '받는 사람의 이름',
+    `created_at`         DATETIME              NOT NULL COMMENT '정산 결과 날짜',
+    `settlement_id`      BIGINT                NOT NULL COMMENT '정산 ID',
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE `SETTLEMENT_USERS`
+(
+    `id`            BIGINT AUTO_INCREMENT NOT NULL COMMENT '참여 ID',
+    `user_id`       VARCHAR(255)          NOT NULL COMMENT '정산에 참여한 USER ID',
+    `settlement_id` BIGINT                NOT NULL COMMENT '참여한 정산 ID',
+    `created_at`    DATETIME              NOT NULL COMMENT '정산 결과 날짜',
+    PRIMARY KEY (id),
+    UNIQUE KEY (settlement_id, user_id)
+);
+
+
