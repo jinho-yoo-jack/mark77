@@ -95,10 +95,10 @@ CREATE TABLE `SETTLEMENT_RESULT`
 
 CREATE TABLE `SETTLEMENT_USERS`
 (
-    `id`            BIGINT AUTO_INCREMENT NOT NULL COMMENT '참여 ID',
-    `user_id`       VARCHAR(255)          NOT NULL COMMENT '정산에 참여한 USER ID',
-    `settlement_id` BIGINT                NOT NULL COMMENT '참여한 정산 ID',
-    `created_at`    DATETIME              NOT NULL COMMENT '정산 결과 날짜',
+    `id`            BIGINT AUTO_INCREMENT  NOT NULL COMMENT '참여 ID',
+    `user_id`       VARCHAR(255)           NOT NULL COMMENT '정산에 참여한 USER ID',
+    `settlement_id` BIGINT                 NOT NULL COMMENT '참여한 정산 ID',
+    `created_at`    DATETIME DEFAULT NOW() NOT NULL COMMENT '정산 결과 날짜',
     PRIMARY KEY (id),
     UNIQUE KEY (settlement_id, user_id)
 );

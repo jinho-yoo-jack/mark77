@@ -26,8 +26,8 @@ public class JwtService {
     private final long accessTokenExpireTime;
     private final long refreshTokenExpireTime;
 
-    private static final long ONE_SECOND = 1000;
-    private static final long ONE_MINUTE = ONE_SECOND * 60;
+    private static final long ONE_SECOND = 10000;
+    private static final long ONE_MINUTE = ONE_SECOND * 600;
     private static final String USERNAME_KEY = "user_id";
     private static final String USERROLE_KEY = "role";
     private static final String INVALID_TOKEN_MESSAGE = "INVALID_TOKEN";
@@ -131,7 +131,7 @@ public class JwtService {
 
         return Jwts.builder()
                 .setClaims(claims)
-                .setExpiration(new Date(1739517604))
+                .setExpiration(expires)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }

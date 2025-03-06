@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
 
@@ -20,6 +21,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
+    @Transactional
     public String signIn(String userId, String password) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException("등록되지 않은 사용자 입니다."));
@@ -32,6 +34,7 @@ public class AuthService {
         return jwtService.createToken(info);
     }
 
+    @Transactional
     public User signUp(UserInfo userInfo) {
         String encryptedPassword = passwordEncoder.encode(userInfo.getPassword());
         return userRepository.save(userInfo.toEntity(encryptedPassword));

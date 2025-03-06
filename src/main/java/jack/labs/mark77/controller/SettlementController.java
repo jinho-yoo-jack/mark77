@@ -1,9 +1,6 @@
 package jack.labs.mark77.controller;
 
-import jack.labs.mark77.dto.tri_count.CreateSettlement;
-import jack.labs.mark77.dto.tri_count.JoinSettlement;
-import jack.labs.mark77.dto.tri_count.ReqCreateSettlement;
-import jack.labs.mark77.dto.tri_count.ReqJoinSettlement;
+import jack.labs.mark77.dto.tri_count.*;
 import jack.labs.mark77.entity.tricount.Settlement;
 import jack.labs.mark77.entity.tricount.SettlementUsers;
 import jack.labs.mark77.global.ApiResponse;
@@ -29,7 +26,7 @@ public class SettlementController {
     }
 
     @PostMapping("/api/v1/settlement/join")
-    public ResponseEntity<ApiResponse<SettlementUsers>> joinSettlement(@RequestBody ReqJoinSettlement requestMessage) {
+    public ResponseEntity<ApiResponse<RespJoinSettlement>> joinSettlement(@RequestBody ReqJoinSettlement requestMessage) {
         return ResponseEntity.ok(ApiResponse.success(settlementService.join(JoinSettlement.of(requestMessage.getSettlementId()))));
     }
 
