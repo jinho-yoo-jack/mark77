@@ -17,11 +17,18 @@ import org.springframework.web.method.annotation.HandlerMethodValidationExceptio
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.io.IOException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalException extends ResponseEntityExceptionHandler {
+
+    @ExceptionHandler({SQLIntegrityConstraintViolationException.class})
+    public ResponseEntity<ErrorResponse> handlerSQLException(Exception e, HttpServletRequest request) throws IOException {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(ErrorResponse.of(500, e.getCause().getMessage(), request.getRequestURI(), ""));
+    }
 
     @ExceptionHandler({NoSuchElementException.class, IOException.class, UnexpectedTypeException.class})
     public ResponseEntity<ErrorResponse> handlerAllException(Exception e, HttpServletRequest request) throws IOException {
