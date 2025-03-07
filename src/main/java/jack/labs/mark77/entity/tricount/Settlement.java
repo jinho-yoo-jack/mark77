@@ -23,6 +23,9 @@ public class Settlement {
     @OneToMany(mappedBy = "settlement")
     private List<SettlementUsers> joinedUsers;
 
+    @OneToMany(mappedBy = "settlement")
+    private List<Expense> expenses;
+
     public static Settlement of(CreateSettlement createSettlement) {
         return Settlement.builder()
                 .name(createSettlement.getSettlementName())
