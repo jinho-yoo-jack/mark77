@@ -70,14 +70,14 @@ CREATE TABLE `SETTLEMENT`
 
 CREATE TABLE `EXPENSE`
 (
-    `id`              BIGINT AUTO_INCREMENT NOT NULL COMMENT '지출 ID',
-    `settlement_name` VARCHAR(255)          NOT NULL COMMENT '지출명',
-    `user_name`       VARCHAR(255)          NOT NULL COMMENT '지출한 사람',
-    `amount`          DECIMAL(10, 2)        NOT NULL COMMENT '지출 금액',
-    `created_at`      DATE                  NOT NULL COMMENT '지출 날짜',
-    `settlement_id`   BIGINT                NOT NULL COMMENT '정산 ID',
+    `id`            BIGINT AUTO_INCREMENT NOT NULL COMMENT '지출 ID',
+    `user_id`       VARCHAR(255)          NOT NULL COMMENT '지출한 사람',
+    `expense_name`  VARCHAR(255)          NOT NULL COMMENT '지출 항목',
+    `amount`        DECIMAL(10, 2)        NOT NULL COMMENT '지출 금액',
+    `expensed_at`    DATE                  NOT NULL COMMENT '지출 날짜',
+    `settlement_id` BIGINT                NOT NULL COMMENT '정산 ID',
     PRIMARY KEY (id),
-    UNIQUE KEY (settlement_id, settlement_name, user_name)
+    UNIQUE KEY (settlement_id, user_id, expense_name)
 );
 
 CREATE TABLE `SETTLEMENT_RESULT`
@@ -98,7 +98,7 @@ CREATE TABLE `SETTLEMENT_USERS`
     `id`            BIGINT AUTO_INCREMENT  NOT NULL COMMENT '참여 ID',
     `user_id`       VARCHAR(255)           NOT NULL COMMENT '정산에 참여한 USER ID',
     `settlement_id` BIGINT                 NOT NULL COMMENT '참여한 정산 ID',
-    `created_at`    DATETIME DEFAULT NOW() NOT NULL COMMENT '정산 결과 날짜',
+    `created_at`    DATETIME DEFAULT NOW() NOT NULL COMMENT '참여한 날짜',
     PRIMARY KEY (id),
     UNIQUE KEY (settlement_id, user_id)
 );

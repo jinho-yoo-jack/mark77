@@ -23,8 +23,11 @@ public class Expense {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "created_at")
-    private LocalDate createdAt;
+    @Column(name = "expense_name")
+    private String expenseName;
+
+    @Column(name = "expensed_at")
+    private LocalDate expensedAt;
 
     private BigDecimal amount;
 
@@ -32,11 +35,12 @@ public class Expense {
     @JoinColumn(name = "settlement_id")
     private Settlement settlement;
 
-    public static Expense of(Settlement s, User u, BigDecimal a, String d) {
+    public static Expense of(Settlement s, User u, BigDecimal a, String d, String e) {
         return Expense.builder()
                 .user(u)
                 .amount(a)
-                .createdAt(convertStringToDate(d))
+                .expensedAt(convertStringToDate(d))
+                .expenseName(e)
                 .settlement(s)
                 .build();
     }

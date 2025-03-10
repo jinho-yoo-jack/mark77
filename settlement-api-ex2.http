@@ -1,0 +1,97 @@
+### POST CREATE NEW SETTLEMENT
+POST http://localhost:7777/settlement/api/v1/settlement/create
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoidG9ueSIsInJvbGUiOiJVU0VSIiwiZXhwIjoxNzQxNzQ4Mjc0fQ.GIwpTV1suHhW_eHnTRWztL6xqFYNNe0DXLtPHtUlhZo
+
+{
+  "settlement_name": "제주여행"
+}
+
+### POST JOIN NEW SETTLEMENT TO MEMEBER
+POST http://localhost:7777/settlement/api/v1/settlement/join
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoidXNlcjEiLCJyb2xlIjoiVVNFUiIsImV4cCI6MTc0MTc2MzIxMH0.B-fWGjKiN7YCmO-Zfcn2WtkiR6G6jKft2L6wzfALJ-o
+
+{
+  "settlement_id": 2
+}
+
+### POST REGISTER NEW SETTLEMENT HISTORY
+POST http://localhost:7777/settlement/api/v1/register/expense
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoidXNlcjEiLCJyb2xlIjoiVVNFUiIsImV4cCI6MTc0MTc2MzIxMH0.B-fWGjKiN7YCmO-Zfcn2WtkiR6G6jKft2L6wzfALJ-o
+
+{
+  "settlement_id": 2,
+  "amount": "150000",
+  "expense_date": "2025-01-10",
+  "expense_name": "점심 식사"
+}
+
+### POST JOIN NEW SETTLEMENT TO MEMEBER
+POST http://localhost:7777/settlement/api/v1/settlement/join
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoidXNlcjIiLCJyb2xlIjoiVVNFUiIsImV4cCI6MTc0MTc2MzI1OX0.DIexBWv4y9wKv4vxT3njKdTeCZByXN-cUS6KwbtfMG4
+
+{
+  "settlement_id": 2
+}
+
+### POST REGISTER NEW SETTLEMENT HISTORY
+POST http://localhost:7777/settlement/api/v1/register/expense
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoidXNlcjIiLCJyb2xlIjoiVVNFUiIsImV4cCI6MTc0MTc2MzI1OX0.DIexBWv4y9wKv4vxT3njKdTeCZByXN-cUS6KwbtfMG4
+
+{
+  "settlement_id": 2,
+  "amount": "30000",
+  "expense_date": "2025-01-10",
+  "expense_name": "저녁 식사"
+}
+
+### POST JOIN NEW SETTLEMENT TO MEMEBER
+POST http://localhost:7777/settlement/api/v1/settlement/join
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoidXNlcjMiLCJyb2xlIjoiVVNFUiIsImV4cCI6MTc0MTc2MzI5NX0.y8Jj5frmGQB8ZfUntQFMuaXzJ_uCQx0irEObL80Pis0
+
+{
+  "settlement_id": 2
+}
+
+### POST REGISTER NEW SETTLEMENT HISTORY
+POST http://localhost:7777/settlement/api/v1/register/expense
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoidXNlcjMiLCJyb2xlIjoiVVNFUiIsImV4cCI6MTc0MTc2MzI5NX0.y8Jj5frmGQB8ZfUntQFMuaXzJ_uCQx0irEObL80Pis0
+
+{
+  "settlement_id": 2,
+  "amount": "80000",
+  "expense_date": "2025-01-10",
+  "expense_name": "간식"
+}
+
+### POST JOIN NEW SETTLEMENT TO MEMEBER
+POST http://localhost:7777/settlement/api/v1/settlement/join
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoidXNlcjQiLCJyb2xlIjoiVVNFUiIsImV4cCI6MTc0MTc2MzMyNX0.pFT6SfTIo8xVG0oZKg5isFmAFj0H_NTx3TVhnEhVGjM
+
+{
+  "settlement_id": 2
+}
+
+### POST REGISTER NEW SETTLEMENT HISTORY
+POST http://localhost:7777/settlement/api/v1/register/expense
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoidXNlcjQiLCJyb2xlIjoiVVNFUiIsImV4cCI6MTc0MTc2MzMyNX0.pFT6SfTIo8xVG0oZKg5isFmAFj0H_NTx3TVhnEhVGjM
+
+{
+  "settlement_id": 2,
+  "amount": "100000",
+  "expense_date": "2025-01-10",
+  "expense_name": "숙소"
+}
+
+### GET SETTLEMENT RESULT
+GET http://localhost:7777/settlement/api/v1/settlement/result?settlementId=2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoicGV0ZXIiLCJyb2xlIjoiVVNFUiIsImV4cCI6MTc0MTc0OTgwNH0.r9DdjfxBZCBB8lceG553ghfIeYVbb4RxVWaiDC2xA-c

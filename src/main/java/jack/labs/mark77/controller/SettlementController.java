@@ -8,10 +8,9 @@ import jack.labs.mark77.service.tricount.SettlementService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/settlement")
@@ -31,7 +30,12 @@ public class SettlementController {
     }
 
     @PostMapping("/api/v1/register/expense")
-    public ResponseEntity<ApiResponse<String>> registerExpense() {
-        return null;
+    public ResponseEntity<ApiResponse<List<ExpenseResult>>> registerExpense(@RequestBody ReqRegisterExpense requestMessage) {
+        return ResponseEntity.ok(ApiResponse.success(settlementService.register(RegisterExpense.of(requestMessage))));
+    }
+
+    @GetMapping("/api/v1/settlement/result")
+    public ResponseEntity<ApiResponse<List<RespSettlementResult>>> registerExpense(@RequestParam long settlementId) {
+        return ResponseEntity.ok(ApiResponse.success(settlementService.settlement(settlementId)));
     }
 }

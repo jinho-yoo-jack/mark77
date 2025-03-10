@@ -1,0 +1,55 @@
+### POST CREATE NEW SETTLEMENT
+POST http://localhost:7777/settlement/api/v1/settlement/create
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoidG9ueSIsInJvbGUiOiJVU0VSIiwiZXhwIjoxNzQxNzQ4Mjc0fQ.GIwpTV1suHhW_eHnTRWztL6xqFYNNe0DXLtPHtUlhZo
+
+{
+  "settlement_name": "강릉여행"
+}
+
+### POST JOIN NEW SETTLEMENT TO MEMEBER
+POST http://localhost:7777/settlement/api/v1/settlement/join
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoidG9ueSIsInJvbGUiOiJVU0VSIiwiZXhwIjoxNzQxNzQ4Mjc0fQ.GIwpTV1suHhW_eHnTRWztL6xqFYNNe0DXLtPHtUlhZo
+
+{
+  "settlement_id": 1
+}
+
+### POST REGISTER NEW SETTLEMENT HISTORY
+POST http://localhost:7777/settlement/api/v1/register/expense
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoidG9ueSIsInJvbGUiOiJVU0VSIiwiZXhwIjoxNzQxNzQ4Mjc0fQ.GIwpTV1suHhW_eHnTRWztL6xqFYNNe0DXLtPHtUlhZo
+
+{
+  "settlement_id": 1,
+  "amount": "80000",
+  "expense_date": "2025-01-10",
+  "expense_name": "점심 식사"
+}
+
+### POST JOIN NEW SETTLEMENT TO MEMEBER
+POST http://localhost:7777/settlement/api/v1/settlement/join
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoicGV0ZXIiLCJyb2xlIjoiVVNFUiIsImV4cCI6MTc0MTc0OTgwNH0.r9DdjfxBZCBB8lceG553ghfIeYVbb4RxVWaiDC2xA-c
+
+{
+  "settlement_id": 1
+}
+
+### POST REGISTER NEW SETTLEMENT HISTORY
+POST http://localhost:7777/settlement/api/v1/register/expense
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoicGV0ZXIiLCJyb2xlIjoiVVNFUiIsImV4cCI6MTc0MTc0OTgwNH0.r9DdjfxBZCBB8lceG553ghfIeYVbb4RxVWaiDC2xA-c
+
+{
+  "settlement_id": 1,
+  "amount": "50000",
+  "expense_date": "2025-01-10",
+  "expense_name": "저녁 식사"
+}
+
+### GET SETTLEMENT RESULT
+GET http://localhost:7777/settlement/api/v1/settlement/result?settlementId=1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoicGV0ZXIiLCJyb2xlIjoiVVNFUiIsImV4cCI6MTc0MTc0OTgwNH0.r9DdjfxBZCBB8lceG553ghfIeYVbb4RxVWaiDC2xA-c
