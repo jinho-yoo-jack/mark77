@@ -15,7 +15,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.*;
 
 @ActiveProfiles("test")
 @SpringBootTest
-class JwtServiceTests {
+class JwtServiceIntegrationsTests {
     @Autowired
     private JwtService jwtService;
 
