@@ -28,7 +28,7 @@ public class UserInfo implements Serializable {
                 .id(userId)
                 .password(encodedPassword)
                 .nickname(nickname)
-                .role(Authority.valueOf(role))
+                .role(Authority.valueOf(role.toUpperCase()))
                 .build();
     }
 }

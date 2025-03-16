@@ -1,15 +1,12 @@
-package jack.labs.mark77.repository;
+package jack.labs.mark77.service;
 
 import jack.labs.mark77.dto.Authority;
 import jack.labs.mark77.dto.JwtUserInfoDto;
-import jack.labs.mark77.service.JwtService;
-import jack.labs.mark77.service.RedisService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.security.SecureRandom;
 import java.util.Base64;
