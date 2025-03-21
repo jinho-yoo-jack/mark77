@@ -5,7 +5,7 @@ CREATE USER `tony`@`%` IDENTIFIED BY 'edth';
 GRANT all privileges ON `stark_industry`.* TO `tony`@`localhost`;
 GRANT all privileges ON `stark_industry`.* TO `tony`@`%`;
 
-CREATE TABLE `USER`
+CREATE TABLE `MEMBER`
 (
     `user_id`    VARCHAR(255)           NOT NULL COMMENT '사용자 ID',
     `password`   VARCHAR(255)           NOT NULL COMMENT '사용자 Password',
