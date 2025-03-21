@@ -60,7 +60,7 @@ spring:
         show_sql: true       # 쿼리 로그 출력
   data:
     redis:
-      host: 172.18.0.2
+      host: redis
       port: 6379
 jwt:
   secret: "i123am123iron123man123For123tony123stark99mark77"

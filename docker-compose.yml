@@ -3,8 +3,11 @@ version: "3.8"
 services:
   redis:
     image: redis:6.2.6-alpine
+    container_name: redis
     ports:
       - "6379:6379"
+    networks:
+      - local-dev-network
     command: redis-server /usr/local/etc/redis/redis.conf
     volumes:
       - ${REDIS_HOME_PATH}/data:/data
@@ -12,8 +15,11 @@ services:
     restart: always
   mysql:
     image: mysql:8.0.33
+    container_name: mysql
     ports:
       - 13306:3306
+    networks:
+      - local-dev-network
     volumes:
       - ${DB_INIT_FILE_PATH}:/docker-entrypoint-initdb.d
     command:
@@ -23,3 +29,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: wanted
       MYSQL_DATABASE: wanted_preonboarding
+
+networks:
+  local-dev-network:
