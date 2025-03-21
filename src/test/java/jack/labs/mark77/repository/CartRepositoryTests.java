@@ -18,8 +18,8 @@ import java.util.NoSuchElementException;
 //@DataJpaTest
 //@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
 @Transactional
-@ActiveProfiles("test")
 class CartRepositoryTests {
     @Autowired
     private UserRepository userRepository;
