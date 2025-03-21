@@ -11,34 +11,36 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
 
 //@DataJpaTest
 //@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@SpringBootTest()
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Transactional
 @ActiveProfiles("test")
-public class CartRepositoryTests {
+class CartRepositoryTests {
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private CartRepository cartRepository;
 
     @Test
-    public void insertTest() {
+    void insertTest() {
         Cart cart = new Cart();
         User user = User.builder()
-            .id("jhy7342")
-            .password("1234")
-            .nickname("유진호 멘토")
-            .role(Authority.valueOf("USER"))
-            .build();
+                .id("jhy7342")
+                .password("1234")
+                .nickname("유진호 멘토")
+                .role(Authority.valueOf("USER"))
+                .build();
         user.setCart(cart);
 
         userRepository.save(user);
 
         User newUser = userRepository.findById("jhy7342")
-            .orElseThrow(() -> new NoSuchElementException("Not Found"));
+                .orElseThrow(() -> new NoSuchElementException("Not Found"));
 
 //        Cart newCart = cartRepository.findByUserId(newUser.getId())
 //            .orElseThrow(() -> new NoSuchElementException("Not Found"));
