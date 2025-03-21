@@ -48,13 +48,4 @@ public class CartRepositoryTests {
 //        Assertions.assertEquals(newCart.getUser().getId(), newUser.getId());
     }
 
-    @Test
-    public void selectTest() {
-
-    }
-
-    @Test
-    public void updateTest() {
-
-    }
 }

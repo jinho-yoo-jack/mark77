@@ -34,7 +34,7 @@ class JwtServiceTests {
         jwtService = new JwtService(secretKey, refreshSecretKey, accessTokenExpiresTime, redisService);
     }
 
-    // 테스트메서드_시나리오_예상결과
+    /* 테스트메서드_시나리오_예상결과 */
     @Test
     void createToken_normal_returnCorrectAccessToken() {
         JwtUserInfoDto member = new JwtUserInfoDto("tony", Authority.USER);
@@ -44,10 +44,6 @@ class JwtServiceTests {
                 .isNotNull()
                 .contains(".")
                 .matches(token -> token.chars().filter(ch -> ch == '.').count() == 2, "JWT 형식(헤더.페이로드.서명)이어야 합니다.");
-    }
-
-    void parseClaims_ExpireTimeIs30min_setIs30min(){
-
     }
 
     @Test
