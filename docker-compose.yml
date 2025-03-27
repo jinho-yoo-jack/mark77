@@ -32,3 +32,4 @@ services:
 
 networks:
   local-dev-network:
+    external: true  # 이미 만들어진 네트워크 사용
