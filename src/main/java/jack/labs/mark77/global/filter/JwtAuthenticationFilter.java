@@ -34,7 +34,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         } else {
             try {
                 SignInDto requestDto = new ObjectMapper().readValue(request.getInputStream(), SignInDto.class);
-                String userId = requestDto.getUserId();
+                String userId = requestDto.getUserId(); // jhy7342 -> jhq7342
                 String password = requestDto.getPassword();
                 return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(userId, password));
 

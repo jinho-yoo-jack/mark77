@@ -21,15 +21,19 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
-@RestControllerAdvice
+@RestControllerAdvice // -> Exception이 발생하면, 일단 나한테 던져, 내가 catch || handling(처리) 할게!!!
 public class GlobalException extends ResponseEntityExceptionHandler {
 
+    // Exception 종류는 다양하다.
+    // UsernameNotfoundException -> U001
+    // DuplicateEmailAddressException -> U002
     @ExceptionHandler({SQLIntegrityConstraintViolationException.class})
     public ResponseEntity<ErrorResponse> handlerSQLException(Exception e, HttpServletRequest request) throws IOException {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
             .body(ErrorResponse.of(500, e.getCause().getMessage(), request.getRequestURI(), ""));
     }
 
+    // throw new NoSuchElementException(error);
     @ExceptionHandler({NoSuchElementException.class, IOException.class, UnexpectedTypeException.class})
     public ResponseEntity<ErrorResponse> handlerAllException(Exception e, HttpServletRequest request) throws IOException {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

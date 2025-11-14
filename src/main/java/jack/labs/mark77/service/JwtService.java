@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,8 @@ import java.security.Key;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -50,6 +53,22 @@ public class JwtService {
         String refreshToken = generateRefreshToken(member);
         saveToRedis(accessToken, refreshToken);
         return accessToken;
+    }
+
+    public String createAccessToken(Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        Claims claims = Jwts.claims();
+        claims.put(USERNAME_KEY, userDetails.getUsername());
+        claims.put(ROLE_KEY, getAuthorities(authentication));
+        Date expires = Date.from(Instant.now().plusSeconds(accessTokenExpireTime));
+        return makeToken(key, claims, expires);
+
+    }
+
+    private List<String> getAuthorities(Authentication authentication) {
+        return authentication.getAuthorities().stream()
+            .map(GrantedAuthority::getAuthority)
+            .collect(Collectors.toList());
     }
 
     public String createToken(JwtUserInfoDto member, Instant expiredTime) {
